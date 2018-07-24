@@ -1,0 +1,59 @@
+{
+  "name": "gs-saas",
+  "version": "1.0.0",
+  "description": "REST API for base backend with authentication based on token",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "testopen": "jest --detectOpenHandles",
+    "test": "jest",
+    "local": "NODE_ENV=local node app.js"
+  },
+  "jest": {
+    "testRegex": "tests/.*\\.(js|jsx)$"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/secofeixo/baseBackend"
+  },
+  "dependencies": {
+    "amqplib": "^0.5.2",
+    "bcrypt": "^3.0.0",
+    "body-parser": "^1.18.3",
+    "busboy": "^0.2.14",
+    "compression": "^1.7.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "express-bearer-token": "^2.1.1",
+    "express-restify-mongoose": "^5.0.0",
+    "fs-extra": "^7.0.0",
+    "generate-password": "^1.4.0",
+    "helmet": "^3.12.1",
+    "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.10",
+    "method-override": "^3.0.0",
+    "moment": "^2.22.2",
+    "mongodb": "^3.1.1",
+    "mongoose": "^5.2.4",
+    "morgan": "^1.9.0",
+    "nodemailer": "^4.6.7",
+    "redis": "^2.8.0",
+    "shelljs": "^0.8.2",
+    "streamifier": "^0.1.1",
+    "uuid": "^3.3.2",
+    "winston": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.1.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^21.18.0",
+    "jest": "^23.4.1",
+    "jest-mock-express": "^0.1.1",
+    "supertest": "^3.1.0"
+  }
+}
