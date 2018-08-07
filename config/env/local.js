@@ -1,5 +1,5 @@
 
 
 module.exports = {
-  db: 'mongodb://localhost/bigfinite',
+  db: 'mongodb://localhost/bigfinite-test',
 };

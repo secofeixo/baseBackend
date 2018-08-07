@@ -11,7 +11,7 @@ module.exports = {
     pwd: 'hCvEZHSeYKajEsgJ1A',
   },
   debugLevel: {
-    console: 'none',
+    console: 'debug',
     file: 'none',
   },
 };

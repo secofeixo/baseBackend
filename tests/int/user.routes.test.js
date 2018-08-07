@@ -16,8 +16,11 @@ const tokenExpired = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNWI0ZjU1N
 
 describe('Users & authentication', () => {
   jest.setTimeout(30000);
-  
-  beforeAll(() => User.remove().exec());
+
+  beforeAll(async () => {
+    await User.remove({ username: 'myuser' }).exec();
+    await User.remove({ username: 'madcarpone' }).exec();
+  });
 
   test('User added', done => {
     supertest(app)

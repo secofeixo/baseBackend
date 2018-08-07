@@ -12,6 +12,7 @@ const ScreenSchema = new Schema({
   },
   widgets: [
     {
+      _id: false,
       id: {
         type: Schema.ObjectId,
         ref: 'Widgets',

@@ -1,36 +1,68 @@
 process.env.NODE_ENV = 'test';
-process.env.PORT = 10001;
+process.env.PORT = 10004;
 
 const app = require('../../app.js').getApp,
   supertest = require('supertest'),
   mongoose = require('mongoose'),
+  User = mongoose.main_conn.model('User'),
   Widget = mongoose.main_conn.model('Widgets'),
-  User = mongoose.main_conn.model('User');
+  Screen = mongoose.main_conn.model('Screens'),
+  Solution = mongoose.main_conn.model('Solutions'),
+  _ = require('lodash');
 
 let tokenEmail;
-let idWidget;
-let idWidgetAux;
+let idSolution;
+let idSolutionAux;
 const tokenExpired = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNWI0ZjU1NjZlYjk0ZGU0NDVhNjc2ODZkIiwianRpIjoiMTY1YmI4NjgtNzlhZS00ZThlLTg2M2UtZjg4YWJiZDllMmQ3IiwiaWF0IjoxNTMyMDEwMDE2LCJleHAiOjE1MzIwOTY0MTZ9.Jm5ahlxk5WoieEg63qaLkf6AkRBMUKMWKH9SUF8d-po';
+const widgets = [];
+const screens = [];
 
-describe('Widgets', () => {
+describe('Solutions', () => {
   jest.setTimeout(30000);
 
   beforeAll(async done => {
-    await User.remove({ username: 'usertestwidget' }).exec();
+    await User.remove({ username: 'usertestsolution' }).exec();
     const newUser = User({
-      'email.addr': 'emailuserwidget@mail.com',
-      username: 'usertestwidget',
+      'email.addr': 'emailusersolution@mail.com',
+      username: 'usertestsolution',
       password: 'mypassword',
       'name.first': 'First',
       'name.last': 'Last',
     });
     await newUser.save();
-    await Widget.remove({ name: 'widget1' }).exec();
-    await Widget.remove({ name: 'widget11' }).exec();
-    await Widget.remove({ name: 'widget2' }).exec();
+    await Widget.remove({ name: 'widgetTestSolution1' }).exec();
+    await Widget.remove({ name: 'widgetTestSolution2' }).exec();
+    const widget1 = Widget({
+      name: 'widgetTestSolution1',
+    });
+    let data = await widget1.save();
+    widgets.push({ id: _.toString(data._id), pos: { x: 1, y: 1 }, size: { height: 500, width: 100 } });
+    const widget2 = Widget({
+      name: 'widgetTestSolution2',
+    });
+    data = await widget2.save();
+    widgets.push({ id: _.toString(data._id), pos: { x: 23, y: 45 }, size: { height: 250, width: 500 } });
+    await Screen.remove({ name: 'screenTestSolution1' }).exec();
+    await Screen.remove({ name: 'screenTestSolution2' }).exec();
+    const screen1 = Screen({
+      name: 'screenTestSolution1',
+      widgets,
+    });
+    data = await screen1.save();
+    screens.push(_.toString(data._id));
+    const screen2 = Screen({
+      name: 'screenTestSolution2',
+    });
+    data = await screen2.save();
+    screens.push(_.toString(data._id));
+
+    await Solution.remove({ name: 'solution1' }).exec();
+    await Solution.remove({ name: 'solution11' }).exec();
+    await Solution.remove({ name: 'solution2' }).exec();
+
     supertest(app)
       .post('/login')
-      .send({ email: 'emailuserwidget@mail.com', password: 'mypassword' })
+      .send({ email: 'emailusersolution@mail.com', password: 'mypassword' })
       .end((err, res) => {
         if (err) return done(err);
         tokenEmail = res.body.token;
@@ -43,63 +75,83 @@ describe('Widgets', () => {
 
   test('added', done => {
     supertest(app)
-      .post('/widgets')
+      .post('/solutions')
       .set('Authorization', `Bearer ${tokenEmail}`)
-      .send({ name: 'widget1' })
+      .send({ name: 'solution1', screens: [screens[0]] })
       .end((err, res) => {
         if (err) return done(err);
         expect(res.statusCode).toBe(201);
         expect(res.body._id).toBeDefined();
-        idWidget = res.body._id;
+        idSolution = res.body._id;
         return done();
       });
   });
 
   test('aux added', done => {
     supertest(app)
-      .post('/widgets')
+      .post('/solutions')
       .set('Authorization', `Bearer ${tokenEmail}`)
-      .send({ name: 'widget2' })
+      .send({ name: 'solution2', screens })
       .end((err, res) => {
         if (err) return done(err);
         expect(res.statusCode).toBe(201);
         expect(res.body._id).toBeDefined();
-        idWidgetAux = res.body._id;
+        idSolutionAux = res.body._id;
         return done();
       });
   });
 
   test('get data', done => {
     supertest(app)
-      .get(`/widgets/${idWidget}`)
+      .get(`/solutions/${idSolution}`)
       .set('Authorization', `Bearer ${tokenEmail}`)
       .end((err, res) => {
         if (err) return done(err);
         expect(res.statusCode).toBe(200);
         expect(res.body._id).toBeDefined();
-        expect(res.body._id).toEqual(idWidget);
+        expect(res.body._id).toEqual(idSolution);
         expect(res.body.createdAt).toBeDefined();
         return done();
       });
   });
 
-  test('get data other widget', done => {
+  test('get data populate screens', done => {
     supertest(app)
-      .get(`/widgets/${idWidgetAux}`)
+      .get(`/solutions/${idSolution}?populate={"path":"screens"}`)
       .set('Authorization', `Bearer ${tokenEmail}`)
       .end((err, res) => {
         if (err) return done(err);
         expect(res.statusCode).toBe(200);
         expect(res.body._id).toBeDefined();
-        expect(res.body._id).toEqual(idWidgetAux);
+        expect(res.body._id).toEqual(idSolution);
+        expect(res.body.screens).toBeDefined();
+        expect(res.body.createdAt).toBeDefined();
+        expect(Array.isArray(res.body.screens)).toBeTruthy();
+        if (res.body.screens.length > 0) {
+          const screen = res.body.screens[0];
+          expect(screen._id).toBeDefined();
+        }
+        return done();
+      });
+  });
+
+  test('get data other solution', done => {
+    supertest(app)
+      .get(`/solutions/${idSolutionAux}`)
+      .set('Authorization', `Bearer ${tokenEmail}`)
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.statusCode).toBe(200);
+        expect(res.body._id).toBeDefined();
+        expect(res.body._id).toEqual(idSolutionAux);
         expect(res.body.createdAt).toBeDefined();
         return done();
       });
   });
 
-  test('get data all widgets', done => {
+  test('get data all solutions', done => {
     supertest(app)
-      .get('/widgets')
+      .get('/solutions')
       .set('Authorization', `Bearer ${tokenEmail}`)
       .end((err, res) => {
         if (err) return done(err);
@@ -111,21 +163,21 @@ describe('Widgets', () => {
 
   test('update data', done => {
     supertest(app)
-      .post(`/widgets/${idWidget}`)
+      .post(`/solutions/${idSolution}`)
       .set('Authorization', `Bearer ${tokenEmail}`)
-      .send({ name: 'WIDGET11' })
+      .send({ name: 'solution11' })
       .end((err, res) => {
         if (err) return done(err);
         expect(res.statusCode).toBe(200);
-        expect(res.body.name).toBe('widget11');
+        expect(res.body.name).toBe('solution11');
         return done();
       });
   });
 
   test('update with no token', done => {
     supertest(app)
-      .post(`/widgets/${idWidgetAux}`)
-      .send({ name: 'WIDGET1' })
+      .post(`/solutions/${idSolutionAux}`)
+      .send({ name: 'solution1' })
       .end((err, res) => {
         if (err) return done(err);
         expect(res.statusCode).toBe(403);
@@ -133,9 +185,9 @@ describe('Widgets', () => {
       });
   });
 
-  test('get widget data with malformed token', done => {
+  test('get user data with malformed token', done => {
     supertest(app)
-      .get('/widgets')
+      .get('/solutions')
       .set('Authorization', 'Bearer token')
       .end((err, res) => {
         if (err) return done(err);
@@ -144,9 +196,9 @@ describe('Widgets', () => {
       });
   });
 
-  test('get widget data with token expired', done => {
+  test('get user data with token expired', done => {
     supertest(app)
-      .get('/widgets')
+      .get('/solutions')
       .set('Authorization', `Bearer ${tokenExpired}`)
       .end((err, res) => {
         if (err) return done(err);
@@ -155,13 +207,11 @@ describe('Widgets', () => {
       });
   });
 
-  test('remove widget', done => {
+  test('remove solution', done => {
     supertest(app)
-      .delete(`/widgets/${idWidget}`)
+      .del(`/screens/${idSolution}`)
       .set('Authorization', `Bearer ${tokenEmail}`)
       .end((err, res) => {
-        console.log(idWidget);
-        console.log(res.text);
         if (err) return done(err);
         expect(res.statusCode).toBe(204);
         return done();

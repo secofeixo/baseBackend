@@ -12,6 +12,7 @@ const SolutionSchema = new Schema({
   },
   screens: [
     {
+      _id: false,
       type: Schema.ObjectId,
       ref: 'Screens',
     },
