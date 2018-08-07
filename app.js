@@ -19,7 +19,19 @@ process.on('SIGINT', () => {
   });
 });
 
-app.listen(config.port);
+const server = app.listen(config.port);
 logger.info(`Server is on port ${app.get('port')}`);
 
 module.exports.getApp = app;
+module.exports.close = done => {
+  client.close();
+  logger.info('Closing server');
+  mongoose.main_conn.close(() => {
+    logger.error('Connection with MongoDB database is closed.');
+    // process.exit(0);
+    server.close();
+    if (done) {
+      done();
+    }
+  });
+};

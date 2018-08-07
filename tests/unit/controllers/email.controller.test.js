@@ -5,6 +5,8 @@ const ctrlEmail = require('../../../app/controllers/email.controller');
 // const app = require('../app.js').getApp;
 
 describe('Testing email', () => {
+  jest.setTimeout(30000);
+
   test('Sending validate email', async () => {
     const user = {
       email: {

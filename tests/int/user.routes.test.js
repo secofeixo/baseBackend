@@ -1,4 +1,5 @@
 process.env.NODE_ENV = 'test';
+process.env.PORT = 10002;
 
 const app = require('../../app.js').getApp,
   supertest = require('supertest'),
@@ -14,6 +15,8 @@ let idUserAux;
 const tokenExpired = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNWI0ZjU1NjZlYjk0ZGU0NDVhNjc2ODZkIiwianRpIjoiMTY1YmI4NjgtNzlhZS00ZThlLTg2M2UtZjg4YWJiZDllMmQ3IiwiaWF0IjoxNTMyMDEwMDE2LCJleHAiOjE1MzIwOTY0MTZ9.Jm5ahlxk5WoieEg63qaLkf6AkRBMUKMWKH9SUF8d-po';
 
 describe('Users & authentication', () => {
+  jest.setTimeout(30000);
+  
   beforeAll(() => User.remove().exec());
 
   test('User added', done => {

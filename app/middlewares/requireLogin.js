@@ -29,6 +29,7 @@ async function validToken(req, res, next) {
   const result = await validTokenInternal(req.token);
   if (!result.validToken) {
     res.status(403).json({ msg: 'Invalid token' });
+    return;
   }
 
   req.session = {

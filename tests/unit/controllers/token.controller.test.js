@@ -6,6 +6,7 @@ const redis = require('../../../config/redis');
 let tokenTest;
 
 describe('Testing token functions', () => {
+  jest.setTimeout(30000);
   test('generatetoken', async () => {
     tokenTest = ctrlToken.generateToken('userId');
     const bValid = await ctrlToken.validToken(tokenTest);

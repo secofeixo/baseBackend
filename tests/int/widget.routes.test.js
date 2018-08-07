@@ -1,4 +1,5 @@
 process.env.NODE_ENV = 'test';
+process.env.PORT = 10001;
 
 const app = require('../../app.js').getApp,
   supertest = require('supertest'),
@@ -12,6 +13,8 @@ let idWidgetAux;
 const tokenExpired = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNWI0ZjU1NjZlYjk0ZGU0NDVhNjc2ODZkIiwianRpIjoiMTY1YmI4NjgtNzlhZS00ZThlLTg2M2UtZjg4YWJiZDllMmQ3IiwiaWF0IjoxNTMyMDEwMDE2LCJleHAiOjE1MzIwOTY0MTZ9.Jm5ahlxk5WoieEg63qaLkf6AkRBMUKMWKH9SUF8d-po';
 
 describe('Widgets', () => {
+  jest.setTimeout(30000);
+  
   beforeAll(async done => {
     const newUser = User({
       'email.addr': 'emailuserwidget@mail.com',
@@ -21,17 +24,18 @@ describe('Widgets', () => {
       'name.last': 'Last',
     });
     await newUser.save();
-    Widget.remove().exec();
+    await Widget.remove().exec();
     supertest(app)
       .post('/login')
       .send({ email: 'emailuserwidget@mail.com', password: 'mypassword' })
       .end((err, res) => {
         if (err) return done(err);
-        expect(res.statusCode).toBe(200);
-        expect(res.body.token).toBeDefined();
         tokenEmail = res.body.token;
         return done();
       });
+  });
+  afterAll(() => {
+    require('../../app.js').close();
   });
 
   test('added', done => {
@@ -85,7 +89,7 @@ describe('Widgets', () => {
         expect(res.statusCode).toBe(200);
         expect(res.body._id).toBeDefined();
         expect(res.body._id).toEqual(idWidgetAux);
-        expect(res.body.createdAt).toBeUndefined();
+        expect(res.body.createdAt).toBeDefined();
         return done();
       });
   });
@@ -106,11 +110,11 @@ describe('Widgets', () => {
     supertest(app)
       .post(`/widgets/${idWidget}`)
       .set('Authorization', `Bearer ${tokenEmail}`)
-      .send({ name: 'WIDGET1' })
+      .send({ name: 'WIDGET11' })
       .end((err, res) => {
         if (err) return done(err);
         expect(res.statusCode).toBe(200);
-        expect(res.body.name.first).toBe('Carla');
+        expect(res.body.name).toBe('widget11');
         return done();
       });
   });
@@ -118,7 +122,7 @@ describe('Widgets', () => {
   test('update with no token', done => {
     supertest(app)
       .post(`/widgets/${idWidgetAux}`)
-      .send({ 'name.first': 'Carla' })
+      .send({ name: 'WIDGET1' })
       .end((err, res) => {
         if (err) return done(err);
         expect(res.statusCode).toBe(403);

@@ -3,6 +3,7 @@ process.env.NODE_ENV = 'test';
 const ctrlUtils = require('../../../app/controllers/utils.controller');
 
 describe('testing utils controller', () => {
+  jest.setTimeout(30000);
   describe('Testing missing body fields', () => {
     test('testing no missing fields nor required fields', () => {
       const req = { body: { } };

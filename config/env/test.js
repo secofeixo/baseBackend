@@ -7,8 +7,8 @@ module.exports = {
     secure: false, // use TLS
     host: 'smtp.ethereal.email',
     port: 587,
-    account: 'user@ethereal.email',
-    pwd: 'password',
+    account: 'og6olbkhma7kzlzi@ethereal.email',
+    pwd: 'hCvEZHSeYKajEsgJ1A',
   },
   debugLevel: {
     console: 'none',

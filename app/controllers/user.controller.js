@@ -323,7 +323,7 @@ async function sendEmailValidateEmail(req, res) {
   }
 
   if (!user) {
-    logger.info(`login.controller.js - login - User NOT found by email ${req.body.email}`);
+    logger.info(`user.controller.js. sendEmailValidateEmail. User NOT found by email ${req.body.email}`);
     return res.status(404).json({ msg: 'User not found' });
   }
 
