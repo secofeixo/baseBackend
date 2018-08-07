@@ -1,13 +1,8 @@
 
 
 module.exports = {
-  db: 'mongodb://mongo_db/gs_saas',
-  dboptions: {
-    // useMongoClient: true,
-    auth: { authdb: 'admin' },
-    user: 'user',
-    pass: 'password',
+  db: 'mongodb://mongo_db/bigfinite',
+  redis: {
+    url: 'redis://redis:6379',
   },
-  wwwfolder: '/fileserver1/webdata',
-  removefolder: '/fileserver1/removed/',
 };

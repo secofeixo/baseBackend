@@ -21,4 +21,5 @@ module.exports = {
   redis: {
     url: 'redis://localhost:6379',
   },
+  wwwfolder: '/download', // this folder must be created and with the permissions to write in it
 };

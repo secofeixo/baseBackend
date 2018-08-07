@@ -1,7 +1,7 @@
 
 
 module.exports = {
-  db: 'mongodb://localhost/database-test',
+  db: 'mongodb://localhost/bigfinite-test',
   email: {
     pool: false,
     secure: false, // use TLS

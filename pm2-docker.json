@@ -1,5 +1,5 @@
 {
-  "name": "gs-saas",
+  "name": "bigfinite-test",
   "script": "app.js",
   "instances": "2",
   "env": {

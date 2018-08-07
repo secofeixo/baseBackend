@@ -20,6 +20,6 @@ process.on('SIGINT', () => {
 });
 
 app.listen(config.port);
-logger.info(`Goldenspear server is on port ${app.get('port')}`);
+logger.info(`Server is on port ${app.get('port')}`);
 
 module.exports.getApp = app;
