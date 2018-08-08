@@ -64,33 +64,33 @@ Adding to the header the token.
 <br>
 # Users
 The CRUD functions for users are: <br>
-1. GET localhost:8080/user<br> For getting the list of the users. The results are paginated by default every 30 elements.
-2. GET localhost:8080/user/:idUser<br> For getting a user.
-3. POST localhost:8080/user<br>For creating new user. The body must be a JSON object with the structure of the model user defined in the code.
-4. PUT/PATCH localhost:8080/user/:idUser<br>For updating the user. The body must be a JSON object with the structure of the model.
-5. DELETE localhost:8080/user/:idUser<br>For removing the user
-6. DELETE localhost:8080/user<br>CAREFULLY. It removes all the users.
+1. `GET localhost:8080/user`<br> For getting the list of the users. The results are paginated by default every 30 elements.
+2. `GET localhost:8080/user/:idUser`<br> For getting a user.
+3. `POST localhost:8080/user`<br>For creating new user. The body must be a JSON object with the structure of the model user defined in the code.
+4. `PUT/PATCH localhost:8080/user/:idUser`<br>For updating the user. The body must be a JSON object with the structure of the model.
+5. `DELETE localhost:8080/user/:idUser`<br>For removing the user
+6. `DELETE localhost:8080/user`<br>CAREFULLY. It removes all the users.
 # Solutions
 The CRUD functions for solutions are: <br>
-1. GET localhost:8080/solutions<br> For getting the list of the solutions. The results are paginated by default every 30 elements.
-2. GET localhost:8080/solutions/:idSolution<br> For getting a solution.
-3. POST localhost:8080/solutions<br>For creating new solution. The body must be a JSON object with the structure of the model solution defined in the code.
-4. PUT/PATCH localhost:8080/solutions/:idSolution<br>For updating the solutions. The body must be a JSON object with the structure of the model
-5. DELETE localhost:8080/solutions/:idSolution<br>For removing the solution with _id equal to :idSolution
-6. DELETE localhost:8080/solutions<br>CAREFULLY. It removes all the solutions.
+1. `GET localhost:8080/solutions`<br> For getting the list of the solutions. The results are paginated by default every 30 elements.
+2. `GET localhost:8080/solutions/:idSolution`<br> For getting a solution.
+3. `POST localhost:8080/solutions`<br>For creating new solution. The body must be a JSON object with the structure of the model solution defined in the code.
+4. `PUT/PATCH localhost:8080/solutions/:idSolution`<br>For updating the solutions. The body must be a JSON object with the structure of the model
+5. `DELETE localhost:8080/solutions/:idSolution`<br>For removing the solution with _id equal to :idSolution
+6. `DELETE localhost:8080/solutions`<br>CAREFULLY. It removes all the solutions.
 # Screens
 The CRUD functions for screens are: <br>
-1. GET localhost:8080/screens<br> For getting the list of the screens. The results are paginated by default every 30 elements.
-2. GET localhost:8080/screens/:idScreen<br> For getting a screen.
-3. POST localhost:8080/screens<br>For creating new screen. The body must be a JSON object with the structure of the model screen defined in the code.
-4. PUT/PATCH localhost:8080/screens/:idScreen<br>For updating the screens. The body must be a JSON object with the structure of the model
-5. DELETE localhost:8080/screens/:idScreen<br>For removing the screen with _id equal to :idScreen
-6. DELETE localhost:8080/screens<br>CAREFULLY. It removes all the screens.
+1. `GET localhost:8080/screens`<br> For getting the list of the screens. The results are paginated by default every 30 elements.
+2. `GET localhost:8080/screens/:idScreen`<br> For getting a screen.
+3. `POST localhost:8080/screens`<br>For creating new screen. The body must be a JSON object with the structure of the model screen defined in the code.
+4. `PUT/PATCH localhost:8080/screens/:idScreen`<br>For updating the screens. The body must be a JSON object with the structure of the model
+5. `DELETE localhost:8080/screens/:idScreen`<br>For removing the screen with _id equal to :idScreen
+6. `DELETE localhost:8080/screens`<br>CAREFULLY. It removes all the screens.
 # Widgets
 The CRUD functions for widgets are: <br>
-1. GET localhost:8080/widgets<br> For getting the list of the widgets. The results are paginated by default every 30 elements.
-2. GET localhost:8080/widgets/:idWidget<br> For getting a widget.
-3. POST localhost:8080/widgets<br>For creating new widget. The body must be a JSON object with the structure of the model widget defined in the code.
-4. PUT/PATCH localhost:8080/widgets/:idWidget<br>For updating the widgets. The body must be a JSON object with the structure of the model
-5. DELETE localhost:8080/widgets/:idWidget<br>For removing the widget with _id equal to :idWidget
-6. DELETE localhost:8080/widgets<br>CAREFULLY. It removes all the widgets.
+1. `GET localhost:8080/widgets`<br> For getting the list of the widgets. The results are paginated by default every 30 elements.
+2. `GET localhost:8080/widgets/:idWidget`<br> For getting a widget.
+3. `POST localhost:8080/widgets`<br>For creating new widget. The body must be a JSON object with the structure of the model widget defined in the code.
+4. `PUT/PATCH localhost:8080/widgets/:idWidget`<br>For updating the widgets. The body must be a JSON object with the structure of the model
+5. `DELETE localhost:8080/widgets/:idWidget`<br>For removing the widget with _id equal to :idWidget
+6. `DELETE localhost:8080/widgets`<br>CAREFULLY. It removes all the widgets.
