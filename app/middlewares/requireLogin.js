@@ -1,7 +1,9 @@
 const config = require('../../config/config'),
   jwt = require('jsonwebtoken'),
   redis = require('../../config/redis'),
-  logger = require('../controllers/log.controller.js');
+  logger = require('../controllers/log.controller.js'),
+  mongoose = require('mongoose'),
+  _ = require('lodash');
 
 async function validTokenInternal(token) {
   let bValidToken = false;
@@ -29,10 +31,27 @@ async function validToken(req, res, next) {
   const result = await validTokenInternal(req.token);
   if (!result.validToken) {
     res.status(403).json({ msg: 'Invalid token' });
+    return;
+  }
+
+  const User = mongoose.main_conn.model('User');
+  let userObj;
+  try {
+    userObj = User.findOne({ _id: result.payload.user }).exec();
+  } catch (errUser) {
+    logger.error(`requireLogin. validToken. Error getting user: ${JSON.stringify(errUser)}`);
+    res.status(500).json({ msg: 'Internal error' });
+    return;
+  }
+
+  logger.debug(`requireLogin. validToken. User: ${JSON.stringify(userObj)}`);
+  if (!userObj || _.isEmpty(userObj)) {
+    res.status(404).json({ msg: 'User not found' });
+    return;
   }
 
   req.session = {
-    user: { _id: result.payload.user },
+    user: userObj,
   };
   next();
 }
