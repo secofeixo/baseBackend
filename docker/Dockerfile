@@ -1,12 +1,8 @@
 FROM keymetrics/pm2:8-stretch
 #FROM node:8.11.3-stretch
 
-RUN echo "Installing zeroMQ" && \
-		apt-get update && \
- 		apt-get install -y libczmq-dev
-
 # Bundle APP files
-WORKDIR /gs-node
+WORKDIR /server
 COPY package*.json ./
 
 # Install app dependencies

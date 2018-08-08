@@ -207,7 +207,7 @@ describe('Solutions', () => {
       });
   });
 
-  test('remove solution', done => {
+  test.skip('remove solution', done => {
     supertest(app)
       .del(`/screens/${idSolution}`)
       .set('Authorization', `Bearer ${tokenEmail}`)

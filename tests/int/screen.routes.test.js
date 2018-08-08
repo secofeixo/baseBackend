@@ -191,7 +191,7 @@ describe('Screens', () => {
       });
   });
 
-  test('remove screen', done => {
+  test.skip('remove screen', done => {
     supertest(app)
       .del(`/screens/${idScreen}`)
       .set('Authorization', `Bearer ${tokenEmail}`)

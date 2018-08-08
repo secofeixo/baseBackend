@@ -155,7 +155,7 @@ describe('Widgets', () => {
       });
   });
 
-  test('remove widget', done => {
+  test.skip('remove widget', done => {
     supertest(app)
       .delete(`/widgets/${idWidget}`)
       .set('Authorization', `Bearer ${tokenEmail}`)
