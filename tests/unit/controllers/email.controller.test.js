@@ -1,6 +1,12 @@
 process.env.NODE_ENV = 'test';
-const mockRes = require('jest-mock-express').response;
 const ctrlEmail = require('../../../app/controllers/email.controller');
+
+const mockResponse = () => {
+  const res = {};
+  res.status = jest.fn().mockReturnValue(res);
+  res.json = jest.fn().mockReturnValue(res);
+  return res;
+};
 
 // const app = require('../app.js').getApp;
 
